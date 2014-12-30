@@ -1,8 +1,19 @@
 import java.util.ArrayList;
 
 
+/**
+ * Clase encarga de calcular el fitness.
+ * @author DavidGSola
+ *
+ */
 public class Fitness 
 {
+	/**
+	 * Calcula y setea el fitness de un cromosoma dado utilizando las matrices de flujos y distancias
+	 * @param cromosoma Cromosoma del cual se quiere calcular el fitness
+	 * @param flujos Matriz de flujos
+	 * @param distancias Matriz de distancias
+	 */
 	public static void CalcularFitness(Cromosoma cromosoma, ArrayList<ArrayList<Integer>> flujos, ArrayList<ArrayList<Integer>> distancias)
 	{
 		ArrayList<Integer> solucion = cromosoma.getSolucion();
