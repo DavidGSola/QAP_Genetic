@@ -14,9 +14,8 @@ public class Fitness
 	 * @param flujos Matriz de flujos
 	 * @param distancias Matriz de distancias
 	 */
-	public static void CalcularFitness(Cromosoma cromosoma, ArrayList<ArrayList<Integer>> flujos, ArrayList<ArrayList<Integer>> distancias)
+	public static int CalcularFitness(ArrayList<Integer>  solucion, ArrayList<ArrayList<Integer>> flujos, ArrayList<ArrayList<Integer>> distancias)
 	{
-		ArrayList<Integer> solucion = cromosoma.getSolucion();
 		int fitness = 0;
 		
 		for(int i=0; i<solucion.size()-1; i++)
@@ -30,9 +29,7 @@ public class Fitness
 			fitness += flujo*distancia;
 		}
 		
-		System.out.println(fitness);
-		
-		cromosoma.setFitness(fitness);
+		return fitness;
 	}
 	
 	

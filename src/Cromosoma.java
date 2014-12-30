@@ -21,10 +21,10 @@ public class Cromosoma implements Comparable<Cromosoma>
 	 * Constructor por defecto que le asocia una solución
 	 * @param solucion
 	 */
-	public Cromosoma(ArrayList<Integer> solucion)
+	public Cromosoma(ArrayList<Integer> solucion, Datos datos)
 	{
 		this.solucion = solucion;
-		mFitness = 0;
+		mFitness = Fitness.CalcularFitness(solucion, datos.flujos, datos.distancias);
 	}
 	
 	/**
