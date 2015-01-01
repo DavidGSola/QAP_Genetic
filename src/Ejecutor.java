@@ -1,8 +1,12 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
-
+/**
+ * Clase main que genera una población inicial y ejecuta un algoritmo genético básico,
+ * otro con una variante baldwiniana y otro con una variante lamarkiana
+ * @author DavidGSola
+ *
+ */
 public class Ejecutor 
 {	
 	public static void main(String[] args) 
@@ -32,32 +36,9 @@ public class Ejecutor
 		for(int i=0; i<nPoblacion; i++)
 			poblacion.add(new Cromosoma(Utils.crearPermutacion(0, datos.getTam(), datos.getTam()), datos));
 
-		System.out.println("ANTIGUA");
-		// Ordenamos la población de acuerdo al fitness calculado anteriormente
-		Collections.sort(poblacion);
-		int j=0;
-		for(Cromosoma c : poblacion)
-			System.out.println(j++ + " " +  c.getFitness());
-	
-		for(int k=0; k<40; k++)
-		{
-			Evolucion ev = new Evolucion();
-			int poblacionAnterior = poblacion.size();
-			for(int i=0; i<poblacionAnterior; i=i+2)
-			{
-				ev.operadorCruce(poblacion, datos, poblacion.get(i), poblacion.get(i+1));
-			}
-			
-			System.out.println("NUEVA");
-			Collections.sort(poblacion);
-			while(poblacion.size() != nPoblacion)
-			{
-				poblacion.remove(nPoblacion);
-			}
-			int i=0;
-			for(Cromosoma c : poblacion)
-				System.out.println(i++ + " " +  c.getFitness());
-		}
+		AlgoritmoGenetico ag = new AlgoritmoGenetico(datos, poblacion);
+		ag.ejecutarAlgoritmo();
+		
 	}
 
 }

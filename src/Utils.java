@@ -32,9 +32,25 @@ public class Utils
 		return permutacion;
 	}
 	
+	/**
+	 * Imprime una solución
+	 * @param s Solución a imprimir
+	 */
 	public static void imprimirSolucion(ArrayList<Integer> s)
 	{
 		for(Integer i : s)
 			System.out.print(i + "\t");
+	}
+	
+	/**
+	 * Imprime el fitness de cada uno de los cromosomas de una
+	 * población
+	 * @param poblacion Población a imprimir
+	 */
+	public static void imprimirPoblacion(ArrayList<Cromosoma> poblacion)
+	{
+		int i=0;
+		for(Cromosoma c : poblacion)
+			System.out.println(i++ + " " +  c.getFitness());
 	}
 }

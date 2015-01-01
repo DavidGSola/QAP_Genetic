@@ -18,17 +18,26 @@ public class Fitness
 	{
 		int fitness = 0;
 		
-		for(int i=0; i<solucion.size()-1; i++)
-		{
-			int fabrica1 = solucion.get(i);
-			int fabrica2 = solucion.get(i+1);
-			
-			int flujo = flujos.get(fabrica1).get(fabrica2);
-			int distancia = distancias.get(fabrica1).get(fabrica2);
-			
-			fitness += flujo*distancia;
-		}
+//		for(int i=0; i<solucion.size()-1; i++)
+//		{
+//			int fabrica1 = solucion.get(i);
+//			int fabrica2 = solucion.get(i+1);
+//			
+//			int flujo = flujos.get(fabrica1).get(fabrica2);
+//			int distancia = distancias.get(i).get(i+1);
+//			
+//			fitness += flujo*distancia;
+//		}
 		
+		for (int i = 0; i < solucion.size(); i++) 
+			for (int l = 0; l < solucion.size(); l++) 
+				if (i != l) 
+				{
+					int fabrica1 = solucion.get(i);
+					int fabrica2 = solucion.get(l);
+					fitness += (distancias.get(i).get(l) * flujos.get(fabrica1).get(fabrica2));
+				}
+
 		return fitness;
 	}
 	

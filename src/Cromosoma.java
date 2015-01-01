@@ -24,7 +24,7 @@ public class Cromosoma implements Comparable<Cromosoma>
 	public Cromosoma(ArrayList<Integer> solucion, Datos datos)
 	{
 		this.solucion = solucion;
-		mFitness = Fitness.CalcularFitness(solucion, datos.flujos, datos.distancias);
+		calcularFitness(datos);
 	}
 	
 	/**
@@ -67,5 +67,14 @@ public class Cromosoma implements Comparable<Cromosoma>
 	public int compareTo(Cromosoma o) 
 	{
 		return this.mFitness - o.mFitness;
+	}
+	
+	/**
+	 * Calcula el fitness del Cromosoma
+	 * @param datos Datos del problema
+	 */
+	public void calcularFitness(Datos datos)
+	{
+		mFitness = Fitness.CalcularFitness(solucion, datos.flujos, datos.distancias);
 	}
 }
