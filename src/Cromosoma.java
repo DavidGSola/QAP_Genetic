@@ -10,12 +10,17 @@ public class Cromosoma implements Comparable<Cromosoma>
 	/**
 	 * Permutación en forma de lista que representa la solución dada por este cromosoma.
 	 */
-	private ArrayList<Integer> solucion;
+	protected ArrayList<Integer> solucion;
+	
+	/**
+	 * Permutación en forma de lista que representa la solución dada por este cromosoma.
+	 */
+	protected ArrayList<Integer> herencia;
 	
 	/**
 	 * Fitness del cromosoma calculado a partir de su solución
 	 */
-	private int mFitness;
+	protected int mFitness;
 
 	/**
 	 * Constructor por defecto que le asocia una solución
@@ -62,13 +67,22 @@ public class Cromosoma implements Comparable<Cromosoma>
 	{
 		this.mFitness = mFitness;
 	}
+	
+	/**
+	 * Devuelve el array que heredará su hijo
+	 * @return Solución que heredará el hijo
+	 */
+	public ArrayList<Integer> getHerencia()
+	{
+		return herencia;
+	}
 
 	@Override
 	public int compareTo(Cromosoma o) 
 	{
 		return this.mFitness - o.mFitness;
 	}
-	
+
 	/**
 	 * Calcula el fitness del Cromosoma
 	 * @param datos Datos del problema

@@ -43,7 +43,7 @@ public class Evolucion
 		ArrayList<Integer> solucionHijo1 = cruzar(tamSolucion, puntoCorte1, puntoCorte2, padre, madre);
 		// En el segundo hijo se prioriza a la madre
 		ArrayList<Integer> solucionHijo2 = cruzar(tamSolucion, puntoCorte1, puntoCorte2, madre, padre);
-		
+
 		Cromosoma hijo1 = new Cromosoma(solucionHijo1, datos);
 		Cromosoma hijo2 = new Cromosoma(solucionHijo2, datos);
 		
@@ -75,6 +75,44 @@ public class Evolucion
 		
 		// Se recalcula su fitness
 		c.calcularFitness(datos);
+	}
+	
+	/**
+	 * Mejora un cromosoma utilizando un algoritmo greedy basado en 2-opt
+	 * @param datos
+	 * @param cromosoma
+	 */
+	public void greedy(Datos datos, Cromosoma cromosoma)
+	{
+		double best_distance = cromosoma.getFitness();
+	 
+        for ( int i = 0; i < cromosoma.getSolucion().size() - 1; i++ ) 
+        {
+            for (int k=i+1; k < cromosoma.getSolucion().size(); k++) 
+            {
+            	// Creamos el nuevo cromosoma a partir del cromosoma actual mejorado
+            	Cromosoma c1 = new Cromosoma((ArrayList<Integer>) cromosoma.getSolucion().clone(), datos);
+    		
+            	// Intercambiamos los valores
+            	int valueAtIndex1 = cromosoma.getSolucion().get(i);
+        		int valueAtIndex2 = cromosoma.getSolucion().get(k);
+        		
+        		c1.getSolucion().set(i, valueAtIndex2);
+        		c1.getSolucion().set(k, valueAtIndex1);
+        		c1.calcularFitness(datos);
+
+        		double new_distance = c1.getFitness();
+ 
+        		// Si el nuevo fitness es menor que el mejor sustituimos el cromosoma
+        		// original por el mejorado
+                if ( new_distance < best_distance ) 
+                {
+                    cromosoma.setSolucion((ArrayList<Integer>) c1.getSolucion().clone());
+                    cromosoma.calcularFitness(datos);
+                    best_distance = new_distance;
+                }
+            }
+        }
 	}
 	
 	/**

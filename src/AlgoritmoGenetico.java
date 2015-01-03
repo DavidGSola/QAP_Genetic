@@ -46,11 +46,15 @@ public class AlgoritmoGenetico
 	
 		Evolucion ev = new Evolucion();
 		
-		for(int k=0; k<4; k++)
+		boolean fin = false;
+		int generaciones = 0;
+		while(!fin)
 		{
+			generaciones++;
 			// Fijamos el tamaño de la población
 			int poblacionAnterior = poblacion.size();
-			
+
+			int mejorFitness = poblacion.get(0).getFitness();
 			// Cruzamos los mejores con los mejores
 			for(int i=0; i<poblacionAnterior; i++)
 			{
@@ -67,6 +71,9 @@ public class AlgoritmoGenetico
 					ev.mutar(c, datos);
 			}
 			
+			for(Cromosoma c : poblacion)
+				ev.greedy(datos, c);
+			
 			// Orndenamos la población respecto a su fitness y 
 			// eliminamos los peores hasta llegar a una población
 			// con el mismo número de cromosomas que la inicial
@@ -74,9 +81,17 @@ public class AlgoritmoGenetico
 			
 			while(poblacion.size() != nPoblacion)
 				poblacion.remove(nPoblacion);
+
+//			System.out.println("NUEVA");
+//			Utils.imprimirPoblacion(poblacion);
+//			
+			if(poblacion.get(0).getFitness() == mejorFitness)
+				fin = true;
 			
-			System.out.println("NUEVA");
-			Utils.imprimirPoblacion(poblacion);
 		}
+		
+		System.out.println("Numero de generaciones: " + generaciones);
+		System.out.println("Fitness: " + poblacion.get(0).getFitness());
+		Utils.imprimirSolucion(poblacion.get(0).getSolucion());
 	}
 }

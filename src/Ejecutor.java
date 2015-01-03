@@ -38,7 +38,6 @@ public class Ejecutor
 
 		AlgoritmoGenetico ag = new AlgoritmoGenetico(datos, poblacion);
 		ag.ejecutarAlgoritmo();
-		
 	}
 
 }
