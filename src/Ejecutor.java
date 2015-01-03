@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Clase main que genera una población inicial y ejecuta un algoritmo genético básico,
@@ -20,7 +19,6 @@ public class Ejecutor
 		
 		String fichero = args[0];
 		int nPoblacion = Integer.parseInt(args[1]);
-		ArrayList<Cromosoma> poblacion = new ArrayList<Cromosoma>();
 		
 		// Leemos el fichero
 		Datos datos = new Datos(fichero);
@@ -31,13 +29,11 @@ public class Ejecutor
 		{
 			e.printStackTrace();
 		}
-	
-		// Creamos la población
-		for(int i=0; i<nPoblacion; i++)
-			poblacion.add(new Cromosoma(Utils.crearPermutacion(0, datos.getTam(), datos.getTam()), datos));
-
-		AlgoritmoGenetico ag = new AlgoritmoGenetico(datos, poblacion);
-		ag.ejecutarAlgoritmo();
+		
+		AlgoritmoGenetico ag = new AlgoritmoGenetico(datos);
+		ag.ejecutarAlgoritmoBasico(nPoblacion);
+		ag.ejecutarAlgoritmoBaldwiniano(nPoblacion);
+		ag.ejecutarAlgoritmoLamarkiano(nPoblacion);
 	}
 
 }

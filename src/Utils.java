@@ -25,7 +25,7 @@ public class Utils
 			
 			while(permutacion.contains(next))
 				next = r.nextInt(max-min) + min;
-			System.out.println(next);
+			
 			permutacion.add(next);
 		}
 

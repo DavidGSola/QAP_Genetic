@@ -28,7 +28,7 @@ public class Cromosoma implements Comparable<Cromosoma>
 	 */
 	public Cromosoma(ArrayList<Integer> solucion, Datos datos)
 	{
-		this.solucion = solucion;
+		this.solucion = (ArrayList<Integer>)solucion.clone();
 		calcularFitness(datos);
 	}
 	
@@ -77,6 +77,15 @@ public class Cromosoma implements Comparable<Cromosoma>
 		return herencia;
 	}
 
+	/**
+	 * Setea el array que herederán igual que el array solución.
+	 * Esto es para que el algoritmo básico y larmarkiano funcionen.
+	 */
+	public void setHerenciaASolucion()
+	{
+		herencia = (ArrayList<Integer>)solucion.clone();
+	}
+	
 	@Override
 	public int compareTo(Cromosoma o) 
 	{

@@ -40,12 +40,49 @@ public class Evolucion
 			puntoCorte2++;
 
 		// En el primer hijo se prioriza al padre
-		ArrayList<Integer> solucionHijo1 = cruzar(tamSolucion, puntoCorte1, puntoCorte2, padre, madre);
+		ArrayList<Integer> solucionHijo1 = cruzar(tamSolucion, puntoCorte1, puntoCorte2, padre.getSolucion(), madre.getSolucion());
 		// En el segundo hijo se prioriza a la madre
-		ArrayList<Integer> solucionHijo2 = cruzar(tamSolucion, puntoCorte1, puntoCorte2, madre, padre);
+		ArrayList<Integer> solucionHijo2 = cruzar(tamSolucion, puntoCorte1, puntoCorte2, madre.getSolucion(), padre.getSolucion());
 
 		Cromosoma hijo1 = new Cromosoma(solucionHijo1, datos);
 		Cromosoma hijo2 = new Cromosoma(solucionHijo2, datos);
+		
+		poblacion.add(hijo1);
+		poblacion.add(hijo2);
+	}
+	
+	/**
+	 * Lleva a cabo un cruce entre dos cromosomas siguiendo la teoria baldwinana en el que se heredan 
+	 * unos alelos diferentes a los mejorados. Se eligen dos puntos de corte y genera dos hijos diferentes
+	 * priorizando en uno al padre y en otro a la madre. Finalmente se añaden los hijos a la población.
+	 * 
+	 * @param poblacion Población del problema
+	 * @param datos Datos del problema
+	 * @param padre Cromosoma padre en el cruce
+	 * @param madre Cromosoma madre en el cruce
+	 */
+	public void operadorCruceBaldwiniano(ArrayList<Cromosoma> poblacion,Datos datos, Cromosoma padre, Cromosoma madre)
+	{
+		int tamSolucion = padre.getSolucion().size();
+		Random r = new Random();
+		
+		// Seleccionamos los dos puntos de corte diferentes
+		int puntoCorte1 = r.nextInt(tamSolucion - 1);
+		int puntoCorte2 = r.nextInt(tamSolucion - puntoCorte1) + puntoCorte1;
+		
+		if(puntoCorte1 == puntoCorte2)
+			puntoCorte2++;
+
+		// En el primer hijo se prioriza al padre
+		ArrayList<Integer> solucionHijo1 = cruzar(tamSolucion, puntoCorte1, puntoCorte2, padre.getHerencia(), madre.getHerencia());
+		// En el segundo hijo se prioriza a la madre
+		ArrayList<Integer> solucionHijo2 = cruzar(tamSolucion, puntoCorte1, puntoCorte2, madre.getHerencia(), padre.getHerencia());
+
+		Cromosoma hijo1 = new Cromosoma(solucionHijo1, datos);
+		Cromosoma hijo2 = new Cromosoma(solucionHijo2, datos);
+
+		hijo1.setHerenciaASolucion();
+		hijo2.setHerenciaASolucion();
 		
 		poblacion.add(hijo1);
 		poblacion.add(hijo2);
@@ -72,6 +109,8 @@ public class Evolucion
 		// Se intercambian
 		c.getSolucion().set(index1, valueAtIndex2);
 		c.getSolucion().set(index2, valueAtIndex1);
+		
+		c.setHerenciaASolucion();
 		
 		// Se recalcula su fitness
 		c.calcularFitness(datos);
@@ -129,7 +168,7 @@ public class Evolucion
 	 * 
 	 * @return Solución generada a partir del cruce
 	 */
-	private ArrayList<Integer> cruzar(int tamSolucion, int puntoCorte1, int puntoCorte2, Cromosoma p1, Cromosoma p2)
+	private ArrayList<Integer> cruzar(int tamSolucion, int puntoCorte1, int puntoCorte2, ArrayList<Integer> p1, ArrayList<Integer> p2)
 	{
 		ArrayList<Integer> solucionHijo1 = new ArrayList<Integer>();
 		
@@ -139,7 +178,7 @@ public class Evolucion
 		
 		// Se copian los alelos del cromosoma p1 del intervalo en el hijo
 		for(int i=puntoCorte1; i<=puntoCorte2; i++)
-			solucionHijo1.set(i, p1.getSolucion().get(i));
+			solucionHijo1.set(i, p1.get(i));
 		
 		int aux = (puntoCorte2+1)%tamSolucion;
 		int aux2 = (puntoCorte2+1)%tamSolucion;
@@ -149,9 +188,9 @@ public class Evolucion
 		// valores en el hijo
 		while(aux != puntoCorte1)
 		{
-			if(!solucionHijo1.contains(p2.getSolucion().get(aux2)) )
+			if(!solucionHijo1.contains(p2.get(aux2)) )
 			{
-				solucionHijo1.set(aux, p2.getSolucion().get(aux2));
+				solucionHijo1.set(aux, p2.get(aux2));
 				aux = (aux +1)%tamSolucion;
 			}
 			
