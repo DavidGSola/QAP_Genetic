@@ -2,7 +2,7 @@ import java.io.IOException;
 
 /**
  * Clase main que genera una población inicial y ejecuta un algoritmo genético básico,
- * otro con una variante baldwiniana y otro con una variante lamarkiana
+ * otro con una variante baldwiniana y otro con una variante lamarckiana
  * @author DavidGSola
  *
  */
@@ -33,7 +33,7 @@ public class Ejecutor
 		AlgoritmoGenetico ag = new AlgoritmoGenetico(datos);
 		ag.ejecutarAlgoritmoBasico(nPoblacion);
 		ag.ejecutarAlgoritmoBaldwiniano(nPoblacion);
-		ag.ejecutarAlgoritmoLamarkiano(nPoblacion);
+		ag.ejecutarAlgoritmoLamarckiano(nPoblacion);
 	}
 
 }

@@ -117,17 +117,20 @@ public class Evolucion
 	}
 	
 	/**
-	 * Mejora un cromosoma utilizando un algoritmo greedy basado en 2-opt
-	 * @param datos
-	 * @param cromosoma
+	 * Realiza una optimización local de un cromosoma utilizando 
+	 * un algoritmo greedy basado en 2-opt
+	 * @param datos Datos del problema
+	 * @param cromosoma Cromosoma sobre el que se va a realizar la optimización local
 	 */
 	public void greedy(Datos datos, Cromosoma cromosoma)
 	{
 		double best_distance = cromosoma.getFitness();
+		int tam = cromosoma.getSolucion().size();
 	 
-        for ( int i = 0; i < cromosoma.getSolucion().size() - 1; i++ ) 
+        for ( int i = 0; i < tam - 1; i++ ) 
         {
-            for (int k=i+1; k < cromosoma.getSolucion().size(); k++) 
+        	boolean encontrado = false;
+            for (int k=i+1; k < tam && !encontrado; k++) 
             {
             	// Creamos el nuevo cromosoma a partir del cromosoma actual mejorado
             	Cromosoma c1 = new Cromosoma((ArrayList<Integer>) cromosoma.getSolucion().clone(), datos);
@@ -140,14 +143,15 @@ public class Evolucion
         		c1.getSolucion().set(k, valueAtIndex1);
         		c1.calcularFitness(datos);
 
-        		double new_distance = c1.getFitness();
+        		int new_distance = c1.getFitness();
  
         		// Si el nuevo fitness es menor que el mejor sustituimos el cromosoma
-        		// original por el mejorado
+        		// original por el mejorado y pasamos al siguiente alelo
                 if ( new_distance < best_distance ) 
                 {
+                	encontrado = true;
                     cromosoma.setSolucion((ArrayList<Integer>) c1.getSolucion().clone());
-                    cromosoma.calcularFitness(datos);
+                    cromosoma.setFitness(new_distance);
                     best_distance = new_distance;
                 }
             }

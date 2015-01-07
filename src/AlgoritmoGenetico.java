@@ -24,10 +24,17 @@ public class AlgoritmoGenetico
 	}
 	
 	/**
-	 * Ejecuta el algoritmo completo hasta cumplir la condición de parada
+	 * Ejecuta el algoritmo evolutivo básico
+	 * hasta cumplir la condición de parada
+	 * 
+	 * @param nPoblacion Tamaño de la población
 	 */
 	public void ejecutarAlgoritmoBasico(int nPoblacion)
 	{
+		System.out.println();
+		System.out.println();
+		System.out.println("COMIENZO DEL ALGORITMO BÁSICO");
+		
 		ArrayList<Cromosoma> poblacion = new ArrayList<Cromosoma>();
 		
 		// Creamos la población
@@ -55,20 +62,18 @@ public class AlgoritmoGenetico
 			int mejorFitness = poblacion.get(0).getFitness();
 			
 			// Cruzamos los mejores con los mejores
-			for(int i=0; i<poblacionAnterior; i++)
-				if(i != poblacionAnterior-1)
-					ev.operadorCruce(poblacion, datos, poblacion.get(i), poblacion.get(i+1));
+			for(int i=0; i<poblacionAnterior-1; i++)
+				ev.operadorCruce(poblacion, datos, poblacion.get(i), poblacion.get(i+1));
 
 			// Mutamos el 10% de los cromosomas
-			for(Cromosoma c : poblacion)
+			for(int i=100; i<poblacion.size(); i++)
 			{
 				double probabilidad = Math.random();
-				
-				if(probabilidad>0.9)
-					ev.mutar(c, datos);
+				if(probabilidad>0.2)
+					ev.mutar(poblacion.get(i), datos);
 			}
 			
-			// Orndenamos la población respecto a su fitness y 
+			// Ordenamos la población respecto a su fitness y 
 			// eliminamos los peores hasta llegar a una población
 			// con el mismo número de cromosomas que la inicial
 			Collections.sort(poblacion);
@@ -76,23 +81,35 @@ public class AlgoritmoGenetico
 			while(poblacion.size() != nPoblacion)
 				poblacion.remove(nPoblacion);
 			
-			if(poblacion.get(0).getFitness() == mejorFitness)
+			if(poblacion.get(0).getFitness() >= mejorFitness)
 				fin = true;
 			
+			System.out.println();
+			System.out.println("Generación: " + generaciones);
+			System.out.println("Fitness: " + poblacion.get(0).getFitness());
+			Utils.imprimirSolucion(poblacion.get(0).getSolucion());
 		}
-		
+
 		System.out.println();
 		System.out.println();
-		System.out.println("Numero de generaciones: " + generaciones);
+		System.out.println("RESULTADOS PARA EL ALGORITMO BÁSICO:");
+		System.out.println("Generación: " + generaciones);
 		System.out.println("Fitness: " + poblacion.get(0).getFitness());
 		Utils.imprimirSolucion(poblacion.get(0).getSolucion());
 	}
 	
 	/**
-	 * Ejecuta el algoritmo completo hasta cumplir la condición de parada
+	 * Ejecuta el algoritmo de la variante Baldwiniana 
+	 * hasta cumplir la condición de parada
+	 * 
+	 * @param nPoblacion Tamaño de la población
 	 */
 	public void ejecutarAlgoritmoBaldwiniano(int nPoblacion)
 	{
+		System.out.println();
+		System.out.println();
+		System.out.println("COMIENZO DE LA VARIANTE BALDWINIANA");
+		
 		// Creamos la población
 		ArrayList<Cromosoma> poblacion = new ArrayList<Cromosoma>();
 		for(int i=0; i<nPoblacion; i++)
@@ -117,28 +134,23 @@ public class AlgoritmoGenetico
 			int mejorFitness = poblacion.get(0).getFitness();
 			
 			// Cruzamos los mejores con los mejores
-			for(int i=0; i<poblacionAnterior; i++)
-				if(i != poblacionAnterior-1)
-					ev.operadorCruceBaldwiniano(poblacion, datos, poblacion.get(i), poblacion.get(i+1));
-			
+			for(int i=0; i<poblacionAnterior-1; i++)
+				ev.operadorCruce(poblacion, datos, poblacion.get(i), poblacion.get(i+1));
+
 			// Mutamos el 10% de los cromosomas
-			for(Cromosoma c : poblacion)
+			for(int i=100; i<poblacion.size(); i++)
 			{
 				double probabilidad = Math.random();
-				
-				if(probabilidad>0.9)
-					ev.mutar(c, datos);
+				if(probabilidad>0.2)
+					ev.mutar(poblacion.get(i), datos);
 			}
 			
-			int j=0;
 			// Realizamos Greedy sobre toda la población
 			for(Cromosoma c : poblacion)
-			{
-				System.out.println("Baldwiniano: " + j);
 				ev.greedy(datos, c);
-			}
 			
-			// Orndenamos la población respecto a su fitness y 
+			
+			// Ordenamos la población respecto a su fitness y 
 			// eliminamos los peores hasta llegar a una población
 			// con el mismo número de cromosomas que la inicial
 			Collections.sort(poblacion);
@@ -146,22 +158,35 @@ public class AlgoritmoGenetico
 			while(poblacion.size() != nPoblacion)
 				poblacion.remove(nPoblacion);
 			
-			if(poblacion.get(0).getFitness() == mejorFitness)
+			if(poblacion.get(0).getFitness() >= mejorFitness)
 				fin = true;
+			
+			System.out.println();
+			System.out.println("Generación: " + generaciones);
+			System.out.println("Fitness: " + poblacion.get(0).getFitness());
+			Utils.imprimirSolucion(poblacion.get(0).getSolucion());
 		}
 
 		System.out.println();
 		System.out.println();
-		System.out.println("Numero de generaciones: " + generaciones);
+		System.out.println("RESULTADOS PARA LA VARIANTE BALDWINIANA");
+		System.out.println("Generación: " + generaciones);
 		System.out.println("Fitness: " + poblacion.get(0).getFitness());
 		Utils.imprimirSolucion(poblacion.get(0).getSolucion());
 	}
 	
 	/**
-	 * Ejecuta el algoritmo completo hasta cumplir la condición de parada
+	 * Ejecuta el algoritmo de la variante lamarciana 
+	 * hasta cumplir la condición de parada
+	 * 
+	 * @param nPoblacion Tamaño de la población
 	 */
-	public void ejecutarAlgoritmoLamarkiano(int nPoblacion)
+	public void ejecutarAlgoritmoLamarckiano(int nPoblacion)
 	{
+		System.out.println();
+		System.out.println();
+		System.out.println("COMIENZO DE LA VARIANTE LAMARCKIANA");
+		
 		// Creamos la población
 		ArrayList<Cromosoma> poblacion = new ArrayList<Cromosoma>();
 		for(int i=0; i<nPoblacion; i++)
@@ -189,28 +214,22 @@ public class AlgoritmoGenetico
 			int mejorFitness = poblacion.get(0).getFitness();
 			
 			// Cruzamos los mejores con los mejores
-			for(int i=0; i<poblacionAnterior; i++)
-				if(i != poblacionAnterior-1)
-					ev.operadorCruce(poblacion, datos, poblacion.get(i), poblacion.get(i+1));
+			for(int i=0; i<poblacionAnterior-1; i++)
+				ev.operadorCruce(poblacion, datos, poblacion.get(i), poblacion.get(i+1));
 
-			// Mutamos el 10% de los cromosomas
-			for(Cromosoma c : poblacion)
+			// Mutamos el 0% de los cromosomas
+			for(int i=100; i<poblacion.size(); i++)
 			{
 				double probabilidad = Math.random();
-				
-				if(probabilidad>0.9)
-					ev.mutar(c, datos);
+				if(probabilidad>0.2)
+					ev.mutar(poblacion.get(i), datos);
 			}
 
-			int j=0;
 			// Realizamos Greedy sobre toda la población
 			for(Cromosoma c : poblacion)
-			{
-				System.out.println("Lamarkiano: " + j);
 				ev.greedy(datos, c);
-			}
 			
-			// Orndenamos la población respecto a su fitness y 
+			// Ordenamos la población respecto a su fitness y 
 			// eliminamos los peores hasta llegar a una población
 			// con el mismo número de cromosomas que la inicial
 			Collections.sort(poblacion);
@@ -218,13 +237,19 @@ public class AlgoritmoGenetico
 			while(poblacion.size() != nPoblacion)
 				poblacion.remove(nPoblacion);
 			
-			if(poblacion.get(0).getFitness() == mejorFitness)
-				fin = true;	
+			if(poblacion.get(0).getFitness() >= mejorFitness)
+				fin = true;
+			
+			System.out.println();
+			System.out.println("Generación: " + generaciones);
+			System.out.println("Fitness: " + poblacion.get(0).getFitness());
+			Utils.imprimirSolucion(poblacion.get(0).getSolucion());
 		}
-
+		
 		System.out.println();
 		System.out.println();
-		System.out.println("Numero de generaciones: " + generaciones);
+		System.out.println("RESULTADOS PARA LA VARIANTE LAMARCKIANA:");
+		System.out.println("Generación: " + generaciones);
 		System.out.println("Fitness: " + poblacion.get(0).getFitness());
 		Utils.imprimirSolucion(poblacion.get(0).getSolucion());
 	}
